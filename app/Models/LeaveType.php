@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class LeaveType extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'category',      // cuti / izin
+        'default_quota',
+        'is_paid',
+        'is_active',
+    ];
+
+    public function requests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+}
