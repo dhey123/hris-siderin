@@ -15,14 +15,14 @@ class DashboardController extends Controller
         // =========================
         // TOTAL KARYAWAN
         // =========================
-        $total_employee = Employee::count();
+        $total_employee = Employee::where('status', 'Active')->count();
 
         // =========================
         // TIPE KARYAWAN
         // =========================
-        $staff = Employee::whereHas('employmentType', function ($q) {$q->where('type_name', 'Staff');})->count();
-        $produksi = Employee::whereHas('employmentType', function ($q) {$q->where('type_name', 'Produksi');})->count();
-        $borongan = Employee::whereHas('employmentType', function ($q) {$q->where('type_name', 'Borongan');})->count();
+        $staff = Employee::where('status', 'Active')->whereHas('employmentType', fn($q) => $q->where('type_name', 'Staff'))->count();
+        $produksi = Employee::where('status', 'Active')->whereHas('employmentType', fn($q) => $q->where('type_name', 'Produksi'))->count();
+        $borongan = Employee::where('status', 'Active')->whereHas('employmentType', fn($q) => $q->where('type_name', 'Borongan'))->count();
 
         // =========================
         // KONTRAK AKAN HABIS (30 hari)
@@ -32,7 +32,7 @@ class DashboardController extends Controller
         // =========================
         // KARYAWAN KELUAR
         // =========================
-        $resign = Employee::whereNotNull('exit_date')->count();
+        $resign = Employee::where('status', 'Inactive')->count();
 
         // =========================
         // CUTI HARI INI
